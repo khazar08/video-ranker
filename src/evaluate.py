@@ -1,18 +1,4 @@
-"""Aggregate per-experiment result JSONs into a table + plots.
-
-    python -m src.evaluate --results-dir results
-
-Produces:
-    results/metrics.csv        headline metrics (test pool, random negatives)
-    results/metrics_full.csv   every experiment x eval-slice, long form
-    results/results_table.md   markdown table (pasted into the README)
-    results/ndcg_by_k.png      NDCG@k vs k, one line per experiment
-    results/ablation_losses.png listwise vs pairwise neural-ranker ablation
-    results/retrieval_recall.png Recall@100/@200 per retriever (stage-1 ceiling)
-    results/cold_vs_active.png  NDCG@10 on cold-start vs active user slices
-"""
 from __future__ import annotations
-
 import argparse
 import glob
 import json
@@ -91,7 +77,6 @@ def _markdown_table(df: pd.DataFrame) -> str:
     return "\n".join(lines)
 
 
-# --- plots ------------------------------------------------------------------
 
 def _setup_mpl():
     import matplotlib
