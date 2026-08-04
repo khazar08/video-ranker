@@ -1,29 +1,10 @@
-"""Feature engineering for the stage-2 rankers.
-
-A `FeatureStore` is fit on a *history* DataFrame (the interactions that predate
-the labels being predicted -- `train` when training the ranker, `train+valid`
-when evaluating on `test`). It precomputes per-user and per-item feature vectors
-and then assembles a dense feature matrix for any candidate table.
-
-Feature groups (matches the project spec):
-    User:  interaction count, mean rating, recency, activity span, genre affinity
-    Item:  popularity, mean rating, rating count, release-year (norm + known
-           flag), genre multi-hot
-    Cross: user-item genre-match score (affinity . item-genre)
-           + any externally supplied columns (e.g. the stage-1 retrieval score)
-"""
 from __future__ import annotations
-
 from typing import Dict, List, Optional, Tuple
-
 import numpy as np
 import pandas as pd
-
 from .data_prep import Dataset
 
-
 class FeatureStore:
-    """Precompute user/item features from a history slice; assemble per-candidate."""
 
     def __init__(self, ds: Dataset, history: pd.DataFrame):
         self.ds = ds
@@ -101,16 +82,7 @@ class FeatureStore:
         candidates: pd.DataFrame,
         extra: Optional[Dict[str, np.ndarray]] = None,
     ) -> Tuple[np.ndarray, List[str]]:
-        """Assemble the dense feature matrix for a candidate table.
 
-        Args:
-            candidates: rows with `user_idx` and `item_idx` (label ignored here).
-            extra: optional {name: array} columns aligned to `candidates` rows,
-                appended after the base features (e.g. {"retrieval_score": ...}).
-
-        Returns:
-            (X, names) where X is [n_rows, n_features] float32.
-        """
         u = candidates["user_idx"].to_numpy()
         it = candidates["item_idx"].to_numpy()
 
