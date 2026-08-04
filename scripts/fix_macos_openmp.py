@@ -1,17 +1,4 @@
-"""Make LightGBM importable on macOS without Homebrew (idempotent).
-
-python.org / pip LightGBM wheels link against `@rpath/libomp.dylib`. When
-Homebrew's libomp is absent, `import lightgbm` fails; and if a *separate copy*
-of libomp is loaded alongside PyTorch's, the two OpenMP runtimes can crash at
-train time. Both are fixed by symlinking LightGBM's expected libomp to the one
-PyTorch already ships (so a single OpenMP image is loaded).
-
-    python scripts/fix_macos_openmp.py
-
-No-op on non-macOS or when LightGBM already imports.
-"""
 from __future__ import annotations
-
 import os
 import sys
 from pathlib import Path
