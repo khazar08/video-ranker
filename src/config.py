@@ -1,11 +1,4 @@
-"""Configuration loading and global seeding.
-
-Experiments are fully described by a YAML file (see configs/). Loading a config
-returns a nested `Config` object with dot-access, and `seed_everything` makes a
-run reproducible across numpy / torch / python `random`.
-"""
 from __future__ import annotations
-
 import os
 import random
 from dataclasses import dataclass, field
@@ -19,13 +12,6 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 class Config(dict):
-    """A dict that also supports attribute access, recursively.
-
-    Example:
-        cfg = load_config("configs/two_tower_lambdamart.yaml")
-        cfg.retrieval.model      # -> "two_tower"
-        cfg["retrieval"]["model"]  # equivalent
-    """
 
     def __getattr__(self, key: str) -> Any:
         try:
@@ -85,7 +71,6 @@ def seed_everything(seed: int) -> None:
 
 @dataclass
 class Paths:
-    """Resolved filesystem paths for a run, derived from the config."""
 
     dataset_dir: Path
     artifacts_dir: Path
