@@ -1,0 +1,28 @@
+# Core numerics
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+scikit-learn>=1.3
+
+# Retrieval
+implicit>=0.7.2          # ALS matrix factorization
+torch>=2.1               # two-tower retriever + neural ranker
+
+# Ranking
+lightgbm>=4.1            # LambdaMART (objective="lambdarank")
+# NOTE (macOS): LightGBM needs an OpenMP runtime. If `import lightgbm` fails
+# with "Library not loaded: @rpath/libomp.dylib", install it via
+#   brew install libomp
+# or copy any bundled libomp.dylib (e.g. from torch/lib) into lightgbm/lib/.
+
+# Config / orchestration
+pyyaml>=6.0
+tqdm>=4.65
+
+# Serving (stretch)
+fastapi>=0.110
+uvicorn>=0.27
+
+# Notebooks
+jupyter>=1.0
+matplotlib>=3.7

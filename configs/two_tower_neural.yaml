@@ -1,0 +1,55 @@
+# Stage 1: two-tower retriever  ->  Stage 2: neural MLP ranker.
+# `loss` is a LIST, so one run trains a model per loss and produces the
+# listwise-vs-pairwise ablation rows in the results table.
+seed: 42
+
+data:
+  small: true
+  positive_threshold: 4.0
+  min_interactions: 5
+  n_test: 2
+  n_valid: 2
+  confidence: linear
+  alpha: 2.0
+
+retrieval:
+  model: two_tower
+  params:
+    dim: 64
+    hidden: 128
+    epochs: 15
+    batch_size: 1024
+    lr: 0.01
+    temperature: 0.1
+    logq_correction: true
+    weight_decay: 1.0e-5
+    seed: 42
+
+ranking:
+  model: neural
+  params:
+    loss: [listnet, listmle, ranknet, bpr]   # 2 listwise + 2 pairwise -> ablation
+    hidden: [128, 64]
+    dropout: 0.1
+    epochs: 30
+    lr: 1.0e-3
+    device: cpu               # tiny MLP; CPU avoids MPS per-batch launch overhead
+    weight_decay: 1.0e-5
+    queries_per_batch: 64
+    pairs_per_query: 30
+    seed: 42
+
+ranker_train:
+  k_neg: 4
+  hard_fraction: 0.5
+
+eval:
+  ks: [5, 10, 20]
+  recall_ks: [100, 200]
+  n_negatives: 100
+  cold_threshold: 20
+
+output:
+  artifacts_dir: artifacts
+  results_dir: results
+  save_serving: false

@@ -1,0 +1,152 @@
+{
+  "experiment": "two_tower_neural:listnet",
+  "retriever": "two_tower",
+  "ranker": "neural",
+  "loss": "listnet",
+  "loss_family": "listwise",
+  "n_users": 603,
+  "n_items": 6298,
+  "retrieval": {
+    "recall@100": 0.33167495854063017,
+    "recall@200": 0.4552238805970149
+  },
+  "metrics_random": {
+    "ndcg@5": 0.38677309324739056,
+    "mrr@5": 0.4475400773908237,
+    "map@5": 0.3091487009397457,
+    "recall@5": 0.4635157545605307,
+    "ndcg@10": 0.45383981890687275,
+    "mrr@10": 0.4674991444891943,
+    "map@10": 0.34491793677117055,
+    "recall@10": 0.6310116086235489,
+    "ndcg@20": 0.5005597018048639,
+    "mrr@20": 0.47485580535250915,
+    "map@20": 0.36231349169647226,
+    "recall@20": 0.7810945273631841,
+    "mrr": 0.4771383218057893,
+    "n_users": 603
+  },
+  "metrics_hard": {
+    "ndcg@5": 0.19319553088331706,
+    "mrr@5": 0.23573797678275288,
+    "map@5": 0.13934494195688227,
+    "recall@5": 0.2462686567164179,
+    "ndcg@10": 0.25442854589052927,
+    "mrr@10": 0.26069454315722973,
+    "map@10": 0.16782061912658927,
+    "recall@10": 0.4013266998341625,
+    "ndcg@20": 0.3142989503528738,
+    "mrr@20": 0.27426467666752313,
+    "map@20": 0.18781316959004374,
+    "recall@20": 0.5945273631840796,
+    "mrr": 0.2804868976660315,
+    "n_users": 603
+  },
+  "metrics_cold": {
+    "ndcg@5": 0.4668077691652839,
+    "mrr@5": 0.5275741710296683,
+    "map@5": 0.38699825479930194,
+    "recall@5": 0.5471204188481675,
+    "ndcg@10": 0.5365743041438481,
+    "mrr@10": 0.5451986204604006,
+    "map@10": 0.4253189146513754,
+    "recall@10": 0.7225130890052356,
+    "ndcg@20": 0.5711225276168898,
+    "mrr@20": 0.5490253666947134,
+    "map@20": 0.4385794277250764,
+    "recall@20": 0.8350785340314136,
+    "mrr": 0.550327557288962,
+    "n_users": 191
+  },
+  "metrics_active": {
+    "ndcg@5": 0.349669639120406,
+    "mrr@5": 0.41043689320388355,
+    "map@5": 0.27305825242718446,
+    "recall@5": 0.42475728155339804,
+    "ndcg@10": 0.41548475414895447,
+    "mrr@10": 0.4314782709200185,
+    "map@10": 0.3076446678995223,
+    "recall@10": 0.5885922330097088,
+    "ndcg@20": 0.4678473238191918,
+    "mrr@20": 0.4404713727885262,
+    "map@20": 0.32695719611039614,
+    "recall@20": 0.7560679611650486,
+    "mrr": 0.4432083606958719,
+    "n_users": 412
+  },
+  "ranker_fit_seconds": 0.9,
+  "retriever_fit_seconds": 3.0,
+  "config": {
+    "seed": 42,
+    "data": {
+      "small": true,
+      "positive_threshold": 4.0,
+      "min_interactions": 5,
+      "n_test": 2,
+      "n_valid": 2,
+      "confidence": "linear",
+      "alpha": 2.0
+    },
+    "retrieval": {
+      "model": "two_tower",
+      "params": {
+        "dim": 64,
+        "hidden": 128,
+        "epochs": 15,
+        "batch_size": 1024,
+        "lr": 0.01,
+        "temperature": 0.1,
+        "logq_correction": true,
+        "weight_decay": 1e-05,
+        "seed": 42
+      }
+    },
+    "ranking": {
+      "model": "neural",
+      "params": {
+        "loss": [
+          "listnet",
+          "listmle",
+          "ranknet",
+          "bpr"
+        ],
+        "hidden": [
+          128,
+          64
+        ],
+        "dropout": 0.1,
+        "epochs": 30,
+        "lr": 0.001,
+        "device": "cpu",
+        "weight_decay": 1e-05,
+        "queries_per_batch": 64,
+        "pairs_per_query": 30,
+        "seed": 42
+      }
+    },
+    "ranker_train": {
+      "k_neg": 4,
+      "hard_fraction": 0.5
+    },
+    "eval": {
+      "ks": [
+        5,
+        10,
+        20
+      ],
+      "recall_ks": [
+        100,
+        200
+      ],
+      "n_negatives": 100,
+      "cold_threshold": 20
+    },
+    "output": {
+      "artifacts_dir": "artifacts",
+      "results_dir": "results",
+      "save_serving": false
+    },
+    "_config_path": "/Users/khazar/Desktop/video-ranker/configs/two_tower_neural.yaml",
+    "_config_name": "two_tower_neural"
+  }
+}

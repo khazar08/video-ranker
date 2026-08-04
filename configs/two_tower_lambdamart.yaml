@@ -1,0 +1,54 @@
+# Stage 1: two-tower neural retriever  ->  Stage 2: LightGBM LambdaMART.
+# Swaps ALS for a learned two-tower retriever; the retrieval score is fed to
+# LambdaMART as a feature. This is also the config that saves the serving bundle.
+seed: 42
+
+data:
+  small: true
+  positive_threshold: 4.0
+  min_interactions: 5
+  n_test: 2
+  n_valid: 2
+  confidence: linear
+  alpha: 2.0
+
+retrieval:
+  model: two_tower
+  params:
+    dim: 64
+    hidden: 128
+    epochs: 15
+    batch_size: 1024
+    lr: 0.01
+    temperature: 0.1
+    logq_correction: true
+    weight_decay: 1.0e-5
+    seed: 42
+
+ranking:
+  model: lambdamart
+  params:
+    num_leaves: 31
+    learning_rate: 0.05
+    n_estimators: 300
+    min_child_samples: 20
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_lambda: 1.0
+    eval_at: [10]
+    seed: 42
+
+ranker_train:
+  k_neg: 4
+  hard_fraction: 0.5
+
+eval:
+  ks: [5, 10, 20]
+  recall_ks: [100, 200]
+  n_negatives: 100
+  cold_threshold: 20
+
+output:
+  artifacts_dir: artifacts
+  results_dir: results
+  save_serving: true        # persist retriever+ranker+features for FastAPI /rank

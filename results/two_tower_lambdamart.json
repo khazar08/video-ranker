@@ -1,0 +1,195 @@
+{
+  "experiment": "two_tower_lambdamart",
+  "retriever": "two_tower",
+  "ranker": "lambdamart",
+  "loss": null,
+  "loss_family": null,
+  "n_users": 603,
+  "n_items": 6298,
+  "retrieval": {
+    "recall@100": 0.33167495854063017,
+    "recall@200": 0.4552238805970149
+  },
+  "metrics_random": {
+    "ndcg@5": 0.4415787115100599,
+    "mrr@5": 0.4956605859590934,
+    "map@5": 0.355375898286346,
+    "recall@5": 0.5373134328358209,
+    "ndcg@10": 0.5048102551616408,
+    "mrr@10": 0.5129247940193215,
+    "map@10": 0.38973255416041486,
+    "recall@10": 0.6956882255389718,
+    "ndcg@20": 0.5506349768558639,
+    "mrr@20": 0.5185499411018488,
+    "map@20": 0.4077199723088892,
+    "recall@20": 0.8424543946932007,
+    "mrr": 0.5198889276958225,
+    "n_users": 603
+  },
+  "metrics_hard": {
+    "ndcg@5": 0.24440386043349685,
+    "mrr@5": 0.29715312327252624,
+    "map@5": 0.18226920950801548,
+    "recall@5": 0.30265339966832505,
+    "ndcg@10": 0.30858375823011247,
+    "mrr@10": 0.32254270973176447,
+    "map@10": 0.21314953012714208,
+    "recall@10": 0.4635157545605307,
+    "ndcg@20": 0.36816532869750623,
+    "mrr@20": 0.3343092777193558,
+    "map@20": 0.23388374634437278,
+    "recall@20": 0.6558872305140961,
+    "mrr": 0.3390311493554088,
+    "n_users": 603
+  },
+  "metrics_cold": {
+    "ndcg@5": 0.5128783649418863,
+    "mrr@5": 0.5701570680628273,
+    "map@5": 0.42766143106457244,
+    "recall@5": 0.6047120418848168,
+    "ndcg@10": 0.5749790990763929,
+    "mrr@10": 0.5834309814676307,
+    "map@10": 0.46364476855314546,
+    "recall@10": 0.7591623036649214,
+    "ndcg@20": 0.6115395260699834,
+    "mrr@20": 0.5872917265125458,
+    "map@20": 0.47813216321515484,
+    "recall@20": 0.8769633507853403,
+    "mrr": 0.5884304937220574,
+    "n_users": 191
+  },
+  "metrics_active": {
+    "ndcg@5": 0.4085247459627812,
+    "mrr@5": 0.4611245954692557,
+    "map@5": 0.3218648867313916,
+    "recall@5": 0.5060679611650486,
+    "ndcg@10": 0.4722805241234911,
+    "mrr@10": 0.48023867313915863,
+    "map@10": 0.35546742564339656,
+    "recall@10": 0.6662621359223301,
+    "ndcg@20": 0.5224001008852406,
+    "mrr@20": 0.4866817833022295,
+    "map@20": 0.37507742749554757,
+    "recall@20": 0.8264563106796117,
+    "mrr": 0.4881135900477378,
+    "n_users": 412
+  },
+  "ranker_fit_seconds": 2.8,
+  "retriever_fit_seconds": 3.01,
+  "config": {
+    "seed": 42,
+    "data": {
+      "small": true,
+      "positive_threshold": 4.0,
+      "min_interactions": 5,
+      "n_test": 2,
+      "n_valid": 2,
+      "confidence": "linear",
+      "alpha": 2.0
+    },
+    "retrieval": {
+      "model": "two_tower",
+      "params": {
+        "dim": 64,
+        "hidden": 128,
+        "epochs": 15,
+        "batch_size": 1024,
+        "lr": 0.01,
+        "temperature": 0.1,
+        "logq_correction": true,
+        "weight_decay": 1e-05,
+        "seed": 42
+      }
+    },
+    "ranking": {
+      "model": "lambdamart",
+      "params": {
+        "num_leaves": 31,
+        "learning_rate": 0.05,
+        "n_estimators": 300,
+        "min_child_samples": 20,
+        "subsample": 0.8,
+        "colsample_bytree": 0.8,
+        "reg_lambda": 1.0,
+        "eval_at": [
+          10
+        ],
+        "seed": 42
+      }
+    },
+    "ranker_train": {
+      "k_neg": 4,
+      "hard_fraction": 0.5
+    },
+    "eval": {
+      "ks": [
+        5,
+        10,
+        20
+      ],
+      "recall_ks": [
+        100,
+        200
+      ],
+      "n_negatives": 100,
+      "cold_threshold": 20
+    },
+    "output": {
+      "artifacts_dir": "artifacts",
+      "results_dir": "results",
+      "save_serving": true
+    },
+    "_config_path": "/Users/khazar/Desktop/video-ranker/configs/two_tower_lambdamart.yaml",
+    "_config_name": "two_tower_lambdamart"
+  },
+  "feature_importance": {
+    "retrieval_score": 7950.623698249459,
+    "i_count_log": 2099.3963603526354,
+    "u_recency": 1464.768098577857,
+    "i_year_norm": 1419.8951101452112,
+    "cross_genre_match": 1383.8549816012383,
+    "i_mean": 997.985685005784,
+    "u_aff_Fantasy": 499.37519413232803,
+    "u_aff_Crime": 496.4270672351122,
+    "u_count_log": 469.6900020390749,
+    "u_aff_War": 464.383575335145,
+    "u_aff_Adventure": 456.38596580922604,
+    "u_aff_Comedy": 452.8182640373707,
+    "u_aff_Horror": 446.44266825914383,
+    "u_aff_Romance": 429.9457072019577,
+    "u_aff_Thriller": 414.2175439670682,
+    "u_aff_Sci-Fi": 409.7066692635417,
+    "u_mean": 405.8886186555028,
+    "u_aff_Drama": 397.09953655302525,
+    "u_aff_IMAX": 392.20116686820984,
+    "u_aff_Action": 390.9375492185354,
+    "u_span": 380.17087775468826,
+    "u_aff_Mystery": 366.22430588304996,
+    "u_aff_Western": 322.3782452940941,
+    "u_aff_Musical": 306.8540840446949,
+    "u_aff_Children": 281.56739307940006,
+    "u_aff_Animation": 273.0118687003851,
+    "u_aff_Film-Noir": 206.5290229022503,
+    "u_aff_Documentary": 196.37673377990723,
+    "i_genre_Drama": 194.09257246553898,
+    "i_genre_Comedy": 108.61548586189747,
+    "i_genre_Children": 81.91419690847397,
+    "i_genre_Crime": 66.93057988584042,
+    "i_genre_Mystery": 66.47491320967674,
+    "i_genre_Action": 61.3553998619318,
+    "i_genre_Romance": 61.0984982997179,
+    "i_genre_Documentary": 59.22198037803173,
+    "i_genre_Adventure": 55.33877106010914,
+    "i_genre_Thriller": 51.45869693160057,
+    "i_genre_Sci-Fi": 45.67764036357403,
+    "i_genre_Horror": 43.612260565161705,
+    "i_genre_Musical": 35.7829227745533,
+    "i_genre_Fantasy": 34.28667397797108,
+    "i_genre_War": 32.90091010928154,
+    "i_genre_Animation": 18.08489391207695,
+    "i_genre_IMAX": 4.661631003022194,
+    "i_genre_Western": 1.3058800101280212,
+    "i_genre_Film-Noir": 0.20934799313545227,
+    "i_year_known": 0.0
+  }
+}

@@ -1,0 +1,48 @@
+# Stage 1: ALS matrix factorization  ->  Stage 2: LightGBM LambdaMART.
+# The gradient-boosted baseline every MLE interviewer expects.
+seed: 42
+
+data:
+  small: true              # ml-latest-small; set false for ml-25m
+  positive_threshold: 4.0
+  min_interactions: 5
+  n_test: 2
+  n_valid: 2
+  confidence: linear       # ALS confidence = 1 + alpha*(rating - threshold)
+  alpha: 2.0
+
+retrieval:
+  model: als
+  params:
+    factors: 64
+    regularization: 0.05
+    iterations: 20
+    seed: 42
+
+ranking:
+  model: lambdamart
+  params:
+    num_leaves: 31
+    learning_rate: 0.05
+    n_estimators: 300
+    min_child_samples: 20
+    subsample: 0.8
+    colsample_bytree: 0.8
+    reg_lambda: 1.0
+    eval_at: [10]
+    seed: 42
+
+ranker_train:
+  k_neg: 4                  # negatives per valid positive
+  hard_fraction: 0.5        # fraction drawn popularity-weighted (hard)
+
+eval:
+  ks: [5, 10, 20]
+  recall_ks: [100, 200]
+  n_negatives: 100          # negatives per user in the test pool
+  cold_threshold: 20        # <= this many train interactions => cold-start slice
+
+output:
+  artifacts_dir: artifacts
+  results_dir: results
+  save_serving: false
