@@ -1,28 +1,4 @@
-"""Load MovieLens, build a leakage-free temporal split, and sample negatives.
-
-Protocol (see README for the rationale):
-
-1.  Keep interactions with rating >= `positive_threshold` (default 4.0) as
-    positive engagements. Drop users with fewer than `min_interactions`.
-2.  Per-user *temporal* split (sort by timestamp, never random):
-        test  = the most recent `n_test` positives
-        valid = the `n_valid` positives immediately before those
-        train = everything earlier
-    Because valid/test are strictly in the future relative to `train`, any
-    feature computed from `train` (or `train+valid`) cannot see them.
-3.  Retrieval models are fit on `train` only. Features are computed from history
-    that predates the labels being predicted.
-4.  Negative sampling: items the user never interacted with (across *all*
-    splits, so a "negative" is never secretly a positive elsewhere). Two
-    flavours:
-        - uniform            (easy slice)
-        - popularity-weighted (hard slice: popular items the user skipped)
-
-`prepare_dataset` returns a `Dataset`; candidate generation for the ranker lives
-in `sample_train_candidates` / `sample_eval_candidates`.
-"""
 from __future__ import annotations
-
 import pickle
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -53,7 +29,6 @@ class Dataset:
     train_ui: sparse.csr_matrix     # [n_users, n_items] train confidence matrix
     config: dict = field(default_factory=dict)
 
-    # --- split views --------------------------------------------------------
     def split(self, name: str) -> pd.DataFrame:
         return self.ratings[self.ratings["split"] == name]
 
