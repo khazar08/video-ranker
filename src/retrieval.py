@@ -1,32 +1,11 @@
-"""Stage-1 candidate generation (retrieval).
-
-Two retrievers with a shared interface:
-
-    * ALSRetriever      -- implicit-feedback matrix factorization (`implicit`).
-    * TwoTowerRetriever -- user tower + item tower, dot-product scoring, trained
-                           with in-batch negatives / sampled-softmax (PyTorch).
-
-Interface (`Retriever`):
-    fit(ds)                         -> self
-    recommend(users, N)             -> (item_ids[n_users, N], scores[...])
-                                       excludes each user's train-seen items
-    score(user_idx, item_idx)       -> per-pair score (stage-2 feature)
-
-`recall_at_k` in evaluate.py consumes `recommend` to report the retrieval
-ceiling (Recall@100 / Recall@200).
-"""
 from __future__ import annotations
-
 import time
 from typing import Optional, Tuple
-
 import numpy as np
-
 from .data_prep import Dataset
 
 
 class Retriever:
-    """Common retriever interface."""
 
     name: str = "base"
 
