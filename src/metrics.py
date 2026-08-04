@@ -1,35 +1,11 @@
-"""Ranking metrics, grouped by user (query).
-
-All metrics operate on a single query's *relevance vector in ranked order*:
-`rels[i]` is the (binary or graded) relevance of the item the model placed at
-rank `i` (0-indexed), best first. Higher is better.
-
-Public helpers:
-    dcg_at_k / ndcg_at_k / recall_at_k / average_precision_at_k /
-    reciprocal_rank        -- single-query scalars
-    ranked_relevance       -- turn (scores, labels) into a ranked rel vector
-    compute_grouped_metrics-- mean over users for a batch of queries
-
-Definitions follow the standard TREC / recsys conventions so the numbers are
-comparable to published baselines. See tests/test_metrics.py for a worked
-hand-computed example that pins down NDCG.
-"""
 from __future__ import annotations
-
 from typing import Dict, Iterable, List, Sequence
-
 import numpy as np
 
-# Metric families we report, at these cutoffs.
 DEFAULT_KS: tuple[int, ...] = (5, 10, 20)
 
 
 def ranked_relevance(scores: Sequence[float], labels: Sequence[float]) -> np.ndarray:
-    """Sort `labels` by descending `scores` -> relevance vector in ranked order.
-
-    Ties are broken deterministically (stable sort on the negated score) so the
-    metric is reproducible regardless of the input ordering.
-    """
     scores = np.asarray(scores, dtype=np.float64)
     labels = np.asarray(labels, dtype=np.float64)
     if scores.shape != labels.shape:
@@ -103,25 +79,12 @@ def reciprocal_rank(rels: Sequence[float], k: int | None = None) -> float:
     return 1.0 / (nz[0] + 1)
 
 
-# --- Aggregation over users -------------------------------------------------
 
 def compute_grouped_metrics(
     ranked_rels: Iterable[np.ndarray],
     n_relevant: Sequence[int] | None = None,
     ks: Sequence[int] = DEFAULT_KS,
-) -> Dict[str, float]:
-    """Mean ranking metrics over a collection of per-user ranked rel vectors.
-
-    Args:
-        ranked_rels: iterable, one relevance-in-ranked-order vector per user.
-        n_relevant: optional per-user total relevant counts (for Recall/MAP
-            denominators). If None, inferred from each vector.
-        ks: cutoffs to report.
-
-    Returns:
-        Flat dict like {"ndcg@10": .., "mrr@10": .., "map@10": .., "recall@10": ..}
-        plus a single "mrr" (untruncated) for reference.
-    """
+    
     ranked_rels = list(ranked_rels)
     n_users = len(ranked_rels)
     out: Dict[str, float] = {}
