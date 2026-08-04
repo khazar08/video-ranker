@@ -1,9 +1,4 @@
-"""Unit tests pinning the ranking metrics to hand-computed values.
-
-Run with:  python -m pytest tests/ -q
-"""
 import math
-
 import numpy as np
 import pytest
 
