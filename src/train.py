@@ -1,22 +1,4 @@
-"""Orchestrate one experiment end-to-end from a YAML config.
-
-    python -m src.train --config configs/two_tower_lambdamart.yaml
-
-Pipeline:
-    1. Prepare the dataset (cached temporal split + negatives).
-    2. Fit the stage-1 retriever on `train`; report Recall@100/@200 (the
-       stage-2 ceiling).
-    3. Build features (train history for the ranker; train+valid for eval).
-    4. Train the stage-2 ranker on (valid positives + sampled negatives), with
-       the retrieval score passed in as a feature.
-    5. Evaluate on the test pool (random + hard negatives) and on cold/active
-       user slices. Write results/<experiment>.json.
-
-If the ranker config's `loss` is a list (neural ranker), one model+result is
-produced per loss so the listwise-vs-pairwise ablation runs from one config.
-"""
 from __future__ import annotations
-
 import argparse
 import hashlib
 import json
@@ -36,7 +18,6 @@ from .ranking import build_ranker
 from .retrieval import build_retriever
 
 
-# --- dataset caching --------------------------------------------------------
 
 def _dataset_cache_path(cfg: Config) -> Path:
     d = cfg.get("data", {})
@@ -64,7 +45,6 @@ def load_dataset(cfg: Config) -> Dataset:
     )
 
 
-# --- retrieval evaluation ---------------------------------------------------
 
 def evaluate_retrieval(retriever, ds: Dataset, ks=(100, 200)) -> Dict[str, float]:
     """Recall@k of the retriever's top-max(ks) list against test positives."""
