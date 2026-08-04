@@ -1,4 +1,4 @@
-# video-ranker — a two-stage retrieval → ranking recommender
+# Video-ranker — a two-stage retrieval → ranking recommender
 
 A reproducible **candidate-generation + ranking** recommender on MovieLens, built
 to mirror the funnel used in production video recsys (the TikTok/YouTube pattern):
