@@ -1,26 +1,8 @@
-"""FastAPI serving for the two-stage recommender (stretch goal).
-
-Loads the serving bundle written by `train.py` (retriever + ranker + feature
-store + dataset) and exposes the full funnel behind an endpoint:
-
-    GET  /rank?user_id=1&k=10          -> ranked items for a known user
-    POST /rank  {"user_id": 1, "k": 10, "candidates": 200}
-
-Run:
-    python -m src.train --config configs/two_tower_lambdamart.yaml   # writes bundle
-    python -m uvicorn src.serve:app --port 8000
-    curl "http://localhost:8000/rank?user_id=1&k=10"
-
-The endpoint mirrors the offline pipeline exactly: stage-1 retrieves candidates,
-stage-2 features (incl. the retrieval score) are assembled, the ranker reorders.
-"""
 from __future__ import annotations
-
 import pickle
 from functools import lru_cache
 from pathlib import Path
 from typing import List, Optional
-
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query
