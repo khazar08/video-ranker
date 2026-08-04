@@ -1,20 +1,5 @@
-"""Stage-2 rankers.
-
-Two rankers with a shared (fit / predict) interface, both consuming the dense
-feature matrix from `features.FeatureStore` plus a per-user `group` array (query
-group sizes, LightGBM-style):
-
-    * LambdaMARTRanker -- LightGBM `objective="lambdarank"`, the gradient-boosted
-      learning-to-rank baseline. Optimises NDCG directly.
-    * NeuralRanker     -- a small MLP scorer trained with a configurable loss:
-        listwise:  "listnet"  (top-1 cross-entropy) / "listmle" (Plackett-Luce)
-        pairwise:  "ranknet"  (logistic pairs)       / "bpr"     (BPR pairs)
-      This supports the listwise-vs-pairwise ablation in the results table.
-"""
 from __future__ import annotations
-
 from typing import List, Optional
-
 import numpy as np
 
 
@@ -33,12 +18,8 @@ class Ranker:
         raise NotImplementedError
 
 
-# --- LightGBM LambdaMART ----------------------------------------------------
 
 class LambdaMARTRanker(Ranker):
-    """Gradient-boosted LambdaMART via LightGBM (`objective="lambdarank"`)."""
-
-    name = "lambdamart"
 
     def __init__(self, num_leaves: int = 31, learning_rate: float = 0.05,
                  n_estimators: int = 300, min_child_samples: int = 20,
