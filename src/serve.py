@@ -89,7 +89,6 @@ def root() -> dict:
     return {"service": "two-stage-video-ranker", "bundle_loaded": ready,
             "usage": "GET /rank?user_id=1&k=10"}
 
-
 @app.get("/health")
 def health() -> dict:
     b = _bundle()
