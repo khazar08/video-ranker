@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
-
 from .config import REPO_ROOT
 
 BUNDLE_PATH = REPO_ROOT / "artifacts" / "serving_bundle.pkl"
