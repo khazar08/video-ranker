@@ -34,7 +34,6 @@ DATASETS = {
 
 
 def _download(url: str, dest: Path) -> None:
-    """Stream a URL to disk with a simple progress readout."""
     print(f"Downloading {url}")
     with urlopen(url, context=_ssl_context()) as resp:  # noqa: S310 (trusted host)
         total = int(resp.headers.get("Content-Length", 0))
