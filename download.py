@@ -10,12 +10,6 @@ from urllib.request import urlopen
 
 
 def _ssl_context() -> ssl.SSLContext:
-    """Build an SSL context, preferring certifi's CA bundle.
-
-    python.org builds on macOS often ship without a usable system CA bundle,
-    which breaks HTTPS. Fall back to certifi, then to an unverified context so
-    the (public, trusted) MovieLens download still succeeds.
-    """
     try:
         import certifi
         return ssl.create_default_context(cafile=certifi.where())
