@@ -1,13 +1,6 @@
-"""Download and unzip a MovieLens dataset.
+# Download and unzip a MovieLens dataset
 
-Usage:
-    python data/download.py            # ml-25m (full, ~250MB zip)
-    python data/download.py --small    # ml-latest-small (~1MB zip, fast)
-
-The raw files land under data/<dataset>/ and are git-ignored.
-"""
 from __future__ import annotations
-
 import argparse
 import ssl
 import sys
