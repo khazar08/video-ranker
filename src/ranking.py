@@ -4,7 +4,7 @@ import numpy as np
 
 
 def _group_bounds(group: np.ndarray) -> np.ndarray:
-    """Cumulative offsets [0, g0, g0+g1, ...] delimiting each query's rows."""
+    # Cumulative offsets [0, g0, g0+g1, ...] delimiting each query's rows
     return np.concatenate([[0], np.cumsum(np.asarray(group))]).astype(np.int64)
 
 
@@ -72,8 +72,6 @@ class LambdaMARTRanker(Ranker):
 # --- Neural ranker ----------------------------------------------------------
 
 class NeuralRanker(Ranker):
-    """MLP scorer trained with a listwise or pairwise learning-to-rank loss."""
-
     name = "neural"
 
     def __init__(self, loss: str = "listnet", hidden: tuple = (128, 64),
