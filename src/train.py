@@ -5,10 +5,8 @@ import json
 import time
 from pathlib import Path
 from typing import Dict, List
-
 import numpy as np
 import pandas as pd
-
 from . import metrics as M
 from .config import REPO_ROOT, Config, load_config, resolve_paths, seed_everything
 from .data_prep import (Dataset, prepare_dataset, sample_eval_candidates,
@@ -76,7 +74,6 @@ def _attach(candidates: pd.DataFrame, fs: FeatureStore, retriever) -> tuple:
 
 def _metric_row(cand: pd.DataFrame, scores: np.ndarray, ds: Dataset,
                 ks) -> Dict[str, float]:
-    """Grouped ranking metrics with an honest per-user relevant-count denominator."""
     test = ds.positives_by_user("test")
     n_rel = {u: len(v) for u, v in test.items()}
     return M.metrics_from_scores(
