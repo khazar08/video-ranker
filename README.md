@@ -11,7 +11,7 @@ evaluation.
 
 ---
 
-## Problem framing
+## Problem framing 
 
 For each user, rank a candidate set of items so that items the user actually
 engaged with (held-out positives) rank above items they didn't. This is
