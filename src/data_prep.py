@@ -10,8 +10,6 @@ from scipy import sparse
 
 @dataclass
 class Dataset:
-    """Everything downstream stages need, in index space (0..n_users/items-1)."""
-
     ratings: pd.DataFrame            # user_idx, item_idx, rating, ts, split
     n_users: int
     n_items: int
