@@ -41,7 +41,7 @@ def main() -> int:
     dest_dir = Path(lightgbm.__file__).parent / "lib"
     dest = dest_dir / "libomp.dylib"
     dest.unlink(missing_ok=True)
-    os.symlink(src, dest)
+    os.symlink(src, dest) 
     print(f"Linked {dest} -> {src}")
     print("Re-run this script to verify.")
     return 0
