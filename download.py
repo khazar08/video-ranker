@@ -1,5 +1,3 @@
-# Download and unzip a MovieLens dataset
-
 from __future__ import annotations
 import argparse
 import ssl
