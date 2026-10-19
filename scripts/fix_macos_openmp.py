@@ -3,7 +3,6 @@ import os
 import sys
 from pathlib import Path
 
-
 def _bundled_libomp() -> Path | None:
     import sysconfig
     site = Path(sysconfig.get_paths()["purelib"])
@@ -45,7 +44,6 @@ def main() -> int:
     print(f"Linked {dest} -> {src}")
     print("Re-run this script to verify.")
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
