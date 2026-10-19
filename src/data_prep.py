@@ -256,13 +256,6 @@ def sample_train_candidates(
 def sample_eval_candidates(
     ds: Dataset, n_neg: int = 100, mode: str = "random", seed: int = 1,
 ) -> pd.DataFrame:
-    """Eval candidate pool: all test positives (label 1) + `n_neg` negatives.
-
-    `mode="random"` -> uniform negatives (easy slice); `mode="hard"` ->
-    popularity-weighted negatives. The pool contains every test positive so the
-    Recall/MAP denominator (n_relevant = #test positives) is exact.
-    Returns [user_idx, item_idx, label].
-    """
     rng = np.random.default_rng(seed)
     pop_probs = _pop_probs(ds) if mode == "hard" else None
     rows_u, rows_i, rows_y = [], [], []
